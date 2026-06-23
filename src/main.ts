@@ -1,9 +1,11 @@
+import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
   app.setGlobalPrefix('api/v1');
 
   app.useGlobalPipes(
@@ -17,9 +19,9 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(3000);
+  const port = configService.get<number>('port');
+  await app.listen(port as number);
+  console.log(`Server running on port: ${port}`);
 }
 
-bootstrap()
-  .then(() => console.log('Server running on port 3000'))
-  .catch(console.log);
+bootstrap();

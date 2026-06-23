@@ -5,6 +5,11 @@ import { PokeResponse } from './interfaces/poke-response.interface';
 import { Pokemon } from 'src/pokemon/entities/pokemon.entity';
 import { AxiosAdapter } from 'src/common/adapters/axios.adapter';
 
+interface pokeData {
+  name: string;
+  no: number;
+}
+
 @Injectable()
 export class SeedService {
   constructor(
@@ -14,16 +19,17 @@ export class SeedService {
   ) {}
 
   async executeSeed() {
-    await this.pokemonModel.deleteMany({});
+    await this.pokemonModel.deleteMany({}); // delete * from pokemons
 
     const data = await this.http.get<PokeResponse>(
-      'https://pokeapi.co/api/v2/pokemon?limit=250',
+      'https://pokeapi.co/api/v2/pokemon?limit=300',
     );
 
-    const pokemonToInsert: { name: string; no: number }[] = [];
+    const pokemonToInsert: pokeData[] = [];
 
     data.results.forEach(async ({ name, url }) => {
       const segments = url.split('/');
+      console.log(segments);
       const pokeNumber: number = +segments[segments.length - 2];
 
       pokemonToInsert.push({ name, no: pokeNumber });

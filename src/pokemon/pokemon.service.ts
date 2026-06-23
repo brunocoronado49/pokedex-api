@@ -30,7 +30,7 @@ export class PokemonService {
   }
 
   async findAll(paginationDto: PaginationDto) {
-    const { limit = 10, offset = 0 } = paginationDto;
+    const { limit = 20, offset = 0 } = paginationDto;
     const pokemons = await this.pokemonModel
       .find()
       .limit(limit)
