@@ -31,6 +31,10 @@ $ docker compose up -d
 $ docker ps -a
 ```
 
+## Environment variables
+
+- Create .env file from .env.template and set the values
+
 ## Run tests
 
 ```bash
